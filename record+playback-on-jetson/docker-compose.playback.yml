@@ -1,0 +1,29 @@
+services:
+    mobile:
+        image: edgeslam
+        environment:
+            - DISPLAY=$DISPLAY
+        volumes:
+            - /tmp/.X11-unix:/tmp/.X11-unix
+            - ./mobile-input.txt:/home/edgeslam/mobile_input.txt
+            - ./start-playback-mobile-container.sh:/home/edgeslam/start-playback-mobile-container.sh
+        command: ["bash", "start-playback-mobile-container.sh"]
+        networks:
+            mynet:
+                ipv4_address: 1.1.0.2
+    edge:
+        image: edgeslam
+        volumes:
+            - ./edge-input.txt:/home/edgeslam/edge_input.txt
+            - ./start-playback-edge-container.sh:/home/edgeslam/start-playback-edge-container.sh
+        command: ["bash", "start-edge-container.sh"]
+        networks:
+            mynet:
+                ipv4_address: 1.1.0.3
+
+networks:
+    mynet:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 1.1.0.0/16

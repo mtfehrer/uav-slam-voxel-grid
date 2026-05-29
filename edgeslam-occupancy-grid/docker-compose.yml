@@ -1,0 +1,38 @@
+services:
+    mobile:
+        image: edgeslam
+        environment:
+            - DISPLAY=$DISPLAY
+        volumes:
+            - /tmp/.X11-unix:/tmp/.X11-unix
+            - ./edgeslam/exported-data/all-points.txt:/home/edgeslam/all-points.txt
+            - ./edgeslam/exported-data/newest-pose.txt:/home/edgeslam/newest-pose.txt
+            - ./edgeslam/exported-data/all-poses.txt:/home/edgeslam/all-poses.txt
+        devices:
+            - /dev/dri:/dev/dri
+        command: ["bash", "start-mobile-container.sh"]
+        networks:
+            mynet:
+                ipv4_address: 1.1.0.2
+    edge:
+        image: edgeslam
+        command: ["bash", "start-edge-container.sh"]
+        networks:
+            mynet:
+                ipv4_address: 1.1.0.3
+    planner:
+        image: ubuntu:25.10
+        volumes:
+            - ./edgeslam/exported-data/all-points.txt:/all-points.txt
+            - ./edgeslam/exported-data/newest-pose.txt:/newest-pose.txt
+            - ./edgeslam/exported-data/all-poses.txt:/all-poses.txt
+            - ./planner/create-grid:/create-grid
+            - ./planner/output:/output
+        command: ["./create-grid"]
+
+networks:
+    mynet:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 1.1.0.0/16

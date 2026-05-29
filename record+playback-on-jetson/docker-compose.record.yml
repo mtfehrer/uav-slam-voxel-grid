@@ -1,0 +1,17 @@
+services:
+    record:
+        image: edgeslam
+        devices:
+            - /dev/hidraw2:/dev/hidraw2
+            - /dev/video0:/dev/video0
+        volumes:
+            - ./record-init.sh:/home/edgeslam/record-init.sh
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          count: all
+                          capabilities: [gpu]
+        privileged: true
+        command: ["bash", "record-init.sh"]
