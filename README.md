@@ -4,5 +4,5 @@
 - record+playback-on-jetson: Features to record and playback a rosbag file from a ZED RGBD camera on NVIDIA Jetson
 
 # Credits
-- Zain Nasir (https://github.com/zainasir) - Dockerized the EdgeSlam system to run on NVIDIA Jetson.
-- Ali Ben Ali (https://github.com/benaliny)- Created the EdgeSlam system.
+- Zain Nasir (https://github.com/zainasir): Dockerized the EdgeSlam system to run on NVIDIA Jetson.
+- Ali Ben Ali (https://github.com/benaliny): Created the EdgeSlam system.
